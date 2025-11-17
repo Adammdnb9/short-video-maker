@@ -107,9 +107,9 @@ export class Config {
   public ensureConfig() {
     if (!this.pexelsApiKey && !this.openaiApiKey) {
       throw new Error(
-        "Either PEXELS_API_KEY or OPENAI_API_KEY environment variable is required. " +
-        "Get a free Pexels key: https://www.pexels.com/api/key/ or " +
-        "use OpenAI DALL-E for image generation. " +
+        "2Wm9DdoyCgruvSuVQmeH6RxcSn1w4IMjZRyTkQiFQAPJfh85AnneckWO" +
+        "2Wm9DdoyCgruvSuVQmeH6RxcSn1w4IMjZRyTkQiFQAPJfh85AnneckWO/ or " +
+        "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" +
         "See: https://github.com/gyoridavid/short-video-maker",
       );
     }
@@ -117,3 +117,4 @@ export class Config {
 }
 
 export const KOKORO_MODEL = "onnx-community/Kokoro-82M-v1.0-ONNX";
+
