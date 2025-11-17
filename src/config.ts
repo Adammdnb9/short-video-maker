@@ -8,12 +8,13 @@ import { kokoroModelPrecision, whisperModels } from "./types/shorts";
 const defaultLogLevel: pino.Level = "info";
 const defaultPort = 3123;
 const whisperVersion = "1.7.1";
-const defaultWhisperModel: whisperModels = "medium.en"; // possible options: "tiny", "tiny.en", "base", "base.en", "small", "small.en", "medium", "medium.en", "large-v1", "large-v2", "large-v3", "large-v3-turbo"
+const defaultWhisperModel: whisperModels = "medium.en"; // possible options: "tiny", "tiny.en", "base", "base.en", "small", "small.en", "medium", "medium.en", "large-v1", "large-v2", "large-v3", "[...]"
 
 // Create the global logger
 const versionNumber = process.env.npm_package_version;
+const computedLogLevel = (process.env.LOG_LEVEL || defaultLogLevel) as pino.Level;
 export const logger = pino({
-  level: process.env.LOG_LEVEL || defaultLogLevel,
+  level: computedLogLevel,
   timestamp: pino.stdTimeFunctions.isoTime,
   formatters: {
     level: (label) => {
@@ -79,7 +80,7 @@ export class Config {
     this.pexelsApiKey = process.env.PEXELS_API_KEY as string;
     this.openaiApiKey = process.env.OPENAI_API_KEY as string;
     this.imageStyle = process.env.IMAGE_STYLE || "creepy-cartoon-tiktok";
-    this.logLevel = (process.env.LOG_LEVEL || defaultLogLevel) as pino.Level;
+    this.logLevel = computedLogLevel;
     this.whisperVerbose = process.env.WHISPER_VERBOSE === "true";
     this.port = process.env.PORT ? parseInt(process.env.PORT) : defaultPort;
     this.runningInDocker = process.env.DOCKER === "true";
@@ -105,16 +106,13 @@ export class Config {
   }
 
   public ensureConfig() {
+    // Require at least one of OPENAI_API_KEY or PEXELS_API_KEY to be set.
     if (!this.pexelsApiKey && !this.openaiApiKey) {
       throw new Error(
-        "2Wm9DdoyCgruvSuVQmeH6RxcSn1w4IMjZRyTkQiFQAPJfh85AnneckWO" +
-        "2Wm9DdoyCgruvSuVQmeH6RxcSn1w4IMjZRyTkQiFQAPJfh85AnneckWO/ or " +
-        "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" +
-        "See: https://github.com/gyoridavid/short-video-maker",
+        "Missing API keys: set OPENAI_API_KEY or PEXELS_API_KEY in your environment. See: https://github.com/gyoridavid/short-video-maker for setup instructions.",
       );
     }
   }
 }
 
 export const KOKORO_MODEL = "onnx-community/Kokoro-82M-v1.0-ONNX";
-
