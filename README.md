@@ -214,7 +214,9 @@ You can load it on http://localhost:3123
 
 | key             | description                                                     | default |
 | --------------- | --------------------------------------------------------------- | ------- |
-| PEXELS_API_KEY  | [your (free) Pexels API key](https://www.pexels.com/api/)       |         |
+| PEXELS_API_KEY  | [your (free) Pexels API key](https://www.pexels.com/api/) (required if not using OpenAI) |         |
+| OPENAI_API_KEY  | Your OpenAI API key for DALL-E image generation (alternative to Pexels) |         |
+| IMAGE_STYLE     | Image generation style when using OpenAI. Options: `creepy-cartoon-tiktok`, `glitchy`, `neon`, `pastel-creepy`, `vhs`, `comic-pop`, `surreal`, `haunted-book`, `retro-anime`, `stop-motion` | `creepy-cartoon-tiktok` |
 | LOG_LEVEL       | pino log level                                                  | info    |
 | WHISPER_VERBOSE | whether the output of whisper.cpp should be forwarded to stdout | false   |
 | PORT            | the port the server will listen on                              | 3123    |
