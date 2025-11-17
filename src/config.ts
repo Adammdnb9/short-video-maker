@@ -38,6 +38,8 @@ export class Config {
   public packageDirPath: string;
   public musicDirPath: string;
   public pexelsApiKey: string;
+  public openaiApiKey: string;
+  public imageStyle: string;
   public logLevel: pino.Level;
   public whisperVerbose: boolean;
   public port: number;
@@ -75,6 +77,8 @@ export class Config {
     this.musicDirPath = path.join(this.staticDirPath, "music");
 
     this.pexelsApiKey = process.env.PEXELS_API_KEY as string;
+    this.openaiApiKey = process.env.OPENAI_API_KEY as string;
+    this.imageStyle = process.env.IMAGE_STYLE || "creepy-cartoon-tiktok";
     this.logLevel = (process.env.LOG_LEVEL || defaultLogLevel) as pino.Level;
     this.whisperVerbose = process.env.WHISPER_VERBOSE === "true";
     this.port = process.env.PORT ? parseInt(process.env.PORT) : defaultPort;
@@ -101,9 +105,12 @@ export class Config {
   }
 
   public ensureConfig() {
-    if (!this.pexelsApiKey) {
+    if (!this.pexelsApiKey && !this.openaiApiKey) {
       throw new Error(
-        "PEXELS_API_KEY environment variable is missing. Get your free API key: https://www.pexels.com/api/key/ - see how to run the project: https://github.com/gyoridavid/short-video-maker",
+        "Either PEXELS_API_KEY or OPENAI_API_KEY environment variable is required. " +
+        "Get a free Pexels key: https://www.pexels.com/api/key/ or " +
+        "use OpenAI DALL-E for image generation. " +
+        "See: https://github.com/gyoridavid/short-video-maker",
       );
     }
   }
